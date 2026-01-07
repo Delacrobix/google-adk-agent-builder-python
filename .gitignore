@@ -1,0 +1,4 @@
+.env
+/.claude
+/kitchen_agent/__pycache__/
+/venv/
