@@ -4,4 +4,4 @@
 /venv/
 .venv
 .adk
-/kitchen_agent/.adk
+/kitchen_agent/.adk/
