@@ -21,6 +21,8 @@ KIBANA_HEADERS = {
     "kbn-xsrf": "true",
 }
 
+INFERENCE_ID = "jina-embeddings"
+
 
 async def create_kitchen_tool(tool_id, index_pattern, description=None):
     """
@@ -36,7 +38,7 @@ async def create_kitchen_tool(tool_id, index_pattern, description=None):
     payload = {
         "id": tool_id,
         "type": "index_search",
-        "configuration": {"pattern": index_pattern},  # TODO: pattern?
+        "configuration": {"pattern": index_pattern},
     }
 
     if description:
@@ -54,6 +56,42 @@ async def create_kitchen_tool(tool_id, index_pattern, description=None):
         )
         response.raise_for_status()
         return response.json()
+
+
+def create_inference_endpoint(inference_id=INFERENCE_ID):
+    """
+    Create an inference endpoint for Jina embeddings.
+
+    Args:
+        inference_id: Unique identifier for the inference endpoint
+    """
+    try:
+        # Check if inference endpoint already exists
+        try:
+            es_client.inference.get(inference_id=inference_id)
+            print(
+                f"ℹ️  Inference endpoint '{inference_id}' already exists. Skipping creation."
+            )
+            return False
+        except Exception:
+            # Endpoint doesn't exist, continue with creation
+            pass
+
+        # Create inference endpoint with Jina embeddings v3
+        inference_config = {
+            "service": "elastic",
+            "service_settings": {"model_id": "jina-embeddings-v3"},
+        }
+
+        es_client.inference.put(
+            task_type="text_embedding", inference_id=inference_id, body=inference_config
+        )
+        print(f"✅ Inference endpoint '{inference_id}' created successfully")
+        return True
+
+    except Exception as e:
+        print(f"❌ Error creating inference endpoint: {e}")
+        raise
 
 
 def create_index(index_name):
@@ -80,6 +118,7 @@ def create_index(index_name):
             "dietary": {"type": "keyword", "copy_to": "semantic_field"},
             "semantic_field": {
                 "type": "semantic_text",
+                "inference_id": INFERENCE_ID,
             },
         }
     }
@@ -160,8 +199,10 @@ def setup_recipes_index(index_name="cooking-recipes"):
     Args:
         index_name: Name of the index to create
     """
+    create_inference_endpoint()
+
     # Default path: dataset.json in the same directory as this file
-    dataset_path = "agent/dataset.json"
+    dataset_path = "kitchen_agent/dataset.json"
 
     # Create index
     index_created = create_index(index_name)
@@ -180,20 +221,3 @@ def setup_recipes_index(index_name="cooking-recipes"):
 
 print("Setting up Elasticsearch index and data...")
 setup_recipes_index()
-
-
-# client.indices.create(
-#     index="orders",
-#     body={
-#         "mappings": {
-#             "properties": {
-#                 "dish": {"type": "keyword"},
-#                 "quantity": {"type": "integer"},
-#                 "price": {"type": "float"},
-#                 "table_number": {"type": "integer"},
-#                 "timestamp": {"type": "date"}
-#             }
-#         }
-#     },
-#     ignore=400
-# )
