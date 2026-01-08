@@ -15,7 +15,8 @@ ELASTIC_API_KEY = os.getenv("ES_API_KEY")
 AUTH_HEADER = f"ApiKey {ELASTIC_API_KEY}"
 
 root_agent = LlmAgent(
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.0-flash",
+    # model="gemini-2.0-flash-exp",
     name="kitchen_assistant_agent",
     instruction="""You are a kitchen assistant that helps chefs during busy dinner service.
     You can answer questions about recipes.

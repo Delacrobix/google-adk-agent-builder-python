@@ -2,3 +2,6 @@
 /.claude
 /kitchen_agent/__pycache__/
 /venv/
+.venv
+.adk
+/kitchen_agent/.adk
