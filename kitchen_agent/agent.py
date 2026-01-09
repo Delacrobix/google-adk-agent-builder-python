@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from google.adk.agents import LlmAgent
+from google.adk.agents import Agent
 from google.adk.tools.mcp_tool import McpToolset
 from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
 from mcp.client.stdio import StdioServerParameters
@@ -14,9 +14,8 @@ ELASTIC_API_KEY = os.getenv("ES_API_KEY")
 # Elastic Agent Builder MCP connection
 AUTH_HEADER = f"ApiKey {ELASTIC_API_KEY}"
 
-root_agent = LlmAgent(
-    model="gemini-2.0-flash",
-    # model="gemini-2.0-flash-exp",
+root_agent = Agent(
+    model="gemini-2.0-flash-exp",
     name="kitchen_assistant_agent",
     instruction="""You are a kitchen assistant that helps chefs during busy dinner service.
     You can answer questions about recipes.
@@ -34,7 +33,7 @@ root_agent = LlmAgent(
                 server_params=StdioServerParameters(
                     command="npx",
                     args=[
-                        "-y",  # Auto-confirm install
+                        "-y", 
                         "mcp-remote",
                         f"{KIBANA_ENDPOINT}/api/agent_builder/mcp",
                         "--header",

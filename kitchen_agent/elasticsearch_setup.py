@@ -87,7 +87,6 @@ def create_inference_endpoint(inference_id=INFERENCE_ID):
             task_type="text_embedding", inference_id=inference_id, body=inference_config
         )
         print(f"✅ Inference endpoint '{inference_id}' created successfully")
-        return True
 
     except Exception as e:
         print(f"❌ Error creating inference endpoint: {e}")

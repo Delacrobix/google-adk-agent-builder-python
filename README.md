@@ -6,8 +6,8 @@ An AI agent built with Google Agent Development Kit (ADK) that assists chefs by 
 
 1. **Create and activate virtual environment:**
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
 2. **Install dependencies:**
@@ -24,8 +24,10 @@ Create a `.env` file in the `agent/` directory by copying the following template
 ```bash
 # Elasticsearch Configuration
 ES_API_KEY="your_elasticsearch_api_key"
-ES_ENDPOINT="https://your-elasticsearch-endpoint:9200"
-KIBANA_ENDPOINT="https://your-kibana-endpoint:5601"
+ES_ENDPOINT="https://your-elasticsearch-endpoint"
+KIBANA_ENDPOINT="https://your-kibana-endpoint"
+
+GOOGLE_GENAI_USE_VERTEXAI=FALSE
 
 # Google Gemini API
 GOOGLE_API_KEY="your_google_api_key"
