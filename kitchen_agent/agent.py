@@ -15,7 +15,7 @@ ELASTIC_API_KEY = os.getenv("ES_API_KEY")
 AUTH_HEADER = f"ApiKey {ELASTIC_API_KEY}"
 
 root_agent = Agent(
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.5-flash-native-audio-latest",
     name="kitchen_assistant_agent",
     instruction="""You are a kitchen assistant that helps chefs during busy dinner service.
     You can answer questions about recipes.
@@ -33,7 +33,7 @@ root_agent = Agent(
                 server_params=StdioServerParameters(
                     command="npx",
                     args=[
-                        "-y", 
+                        "-y",
                         "mcp-remote",
                         f"{KIBANA_ENDPOINT}/api/agent_builder/mcp",
                         "--header",
