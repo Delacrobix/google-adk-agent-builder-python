@@ -35,11 +35,7 @@ GOOGLE_API_KEY="your_google_api_key"
 
 ### 2. Elasticsearch Setup
 
-Run the setup script to create the index, load the recipe dataset, and configure the search tool in Agent Builder:
-
-```bash
-python elasticsearch_setup.py
-```
+The setup steps (create the index, load the dataset, and register the Agent Builder tool) are in the notebook at `elasticsearch_setup_notebook.ipynb`. Run it before starting the agent.
 
 ## Usage
 

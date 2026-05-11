@@ -40,6 +40,8 @@ root_agent = Agent(
                         f"Authorization:{AUTH_HEADER}",
                     ],
                 ),
+                timeout=30,
+                session_read_timeout_seconds=120,
             ),
             tool_filter=["recipe_semantic_search"],
         )
